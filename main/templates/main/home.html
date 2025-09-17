@@ -1,0 +1,140 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section min-vh-100 d-flex align-items-center position-relative overflow-hidden">
+    {% if hero_images %}
+        {% with hero_images|first as hero_image %}
+            <img src="{{ hero_image.image.url }}" 
+                 alt="{{ hero_image.alt_text }}"
+                 class="hero-bg position-absolute w-100 h-100"
+                 style="object-fit: cover; object-position: center; opacity: 0.7; z-index: -2;"
+                 loading="eager"
+                 decoding="async">
+        {% endwith %}
+    {% endif %}
+    
+    <div class="hero-overlay position-absolute w-100 h-100" style="z-index: -1;"></div>
+    
+    <div class="container position-relative z-2 text-center text-light">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1 class="display-3 fw-bold mb-4 animate-fade-in">
+                    Спорт, развитие, эстетика и бережность
+                </h1>
+                <p class="lead mb-5 animate-fade-in-delay">
+                    Это школа, в которую хочется возвращаться
+                </p>
+                <div class="animate-fade-in-delay-2">
+                    <a href="{% url 'contact' %}" class="btn btn-chocolate-primary btn-lg px-5 py-3 me-3">
+                        <i class="fas fa-star me-2"></i>Оставить заявку
+                    </a>
+                    <a href="#services" class="btn btn-outline-light btn-lg px-5 py-3">
+                        <i class="fas fa-arrow-down me-2"></i>Узнать больше
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator position-absolute bottom-0 start-50 translate-middle-x mb-4">
+            <i class="fas fa-chevron-down fa-2x animate-bounce"></i>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-4 fw-bold text-chocolate-dark mb-3">Наши направления</h2>
+            <p class="lead text-muted">Каждое направление помогает ребенку развиваться всесторонне</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for service in services %}
+            <div class="col-lg-6 col-xl-3">
+                <div class="service-card h-100 p-4 rounded-3 shadow-sm">
+                    <div class="text-center mb-3">
+                        <i class="fas {{ service.icon_class|default:'fa-star' }} fa-3x text-chocolate-primary mb-3"></i>
+                        <h4 class="fw-bold text-chocolate-dark">{{ service.name }}</h4>
+                    </div>
+                    <p class="text-muted">{{ service.short_description }}</p>
+                    <div class="mt-auto">
+                        <a href="{% url 'services' %}" class="btn btn-chocolate-outline btn-sm">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">Направления будут добавлены через админку</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="py-5 bg-chocolate-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="display-5 fw-bold text-chocolate-dark mb-4">Бережный подход к каждому ребенку</h2>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <div class="d-flex align-items-start">
+                            <div class="badge bg-chocolate-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 2.5rem; height: 2.5rem;">
+                                1
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-chocolate-dark">Индивидуальный подход</h5>
+                                <p class="text-muted mb-0">Учитываем темп и состояние каждого ребенка</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-start">
+                            <div class="badge bg-chocolate-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 2.5rem; height: 2.5rem;">
+                                2
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-chocolate-dark">Безопасное пространство</h5>
+                                <p class="text-muted mb-0">Залы наполнены светом и оборудованы для комфорта</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-start">
+                            <div class="badge bg-chocolate-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 2.5rem; height: 2.5rem;">
+                                3
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-chocolate-dark">Поддержка родителей</h5>
+                                <p class="text-muted mb-0">Рекомендации и ощущение надежности</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <i class="fas fa-heart fa-5x text-chocolate-primary mb-3"></i>
+                    <h4 class="text-chocolate-dark">Только поддержка, внимание и уважение</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-chocolate-dark text-light">
+    <div class="container text-center">
+        <h2 class="display-5 fw-bold mb-3">Получите бесплатное пробное занятие!</h2>
+        <p class="lead mb-4">Свяжитесь с нами и запишитесь на пробное занятие</p>
+        <a href="{% url 'contact' %}" class="btn btn-chocolate-primary btn-lg px-5 py-3">
+            <i class="fas fa-phone me-2"></i>Оставить заявку
+        </a>
+    </div>
+</section>
+{% endblock %}

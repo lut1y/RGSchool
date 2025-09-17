@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<section class="py-5 mt-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-chocolate-dark">Наши направления</h1>
+            <p class="lead text-muted">Выберите подходящее направление для вашего ребенка</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for service in services %}
+            <div class="col-lg-6">
+                <div class="service-card h-100 p-4 rounded-3 shadow-sm">
+                    <h3 class="fw-bold text-chocolate-dark mb-3">{{ service.name }}</h3>
+                    <p class="text-muted mb-4">{{ service.description }}</p>
+                    <a href="{% url 'contact' %}" class="btn btn-chocolate-primary">Записаться</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">Направления будут добавлены через админку</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

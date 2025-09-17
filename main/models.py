@@ -29,14 +29,17 @@ class HeroImage(models.Model):
         super().save(*args, **kwargs)
         
         # Оптимизация изображения для быстрой загрузки
-        if self.image:
-            img = Image.open(self.image.path)
-            
-            # Максимальный размер для hero-изображений
-            max_size = (1920, 1080)
-            if img.height > max_size[1] or img.width > max_size[0]:
-                img.thumbnail(max_size, Image.Resampling.LANCZOS)
-                img.save(self.image.path, optimize=True, quality=85)
+        if self.image and hasattr(self.image, 'path') and os.path.exists(self.image.path):
+            try:
+                img = Image.open(self.image.path)
+                
+                # Максимальный размер для hero-изображений
+                max_size = (1920, 1080)
+                if img.height > max_size[1] or img.width > max_size[0]:
+                    img.thumbnail(max_size, Image.Resampling.LANCZOS)
+                    img.save(self.image.path, optimize=True, quality=85)
+            except Exception:
+                pass  # Если не удалось оптимизировать изображение, продолжаем без ошибки
 
 
 class Service(models.Model):
