@@ -28,6 +28,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# CSRF trusted origins для Replit
+CSRF_TRUSTED_ORIGINS = [
+    'https://' + os.environ.get('REPLIT_DEV_DOMAIN', 'localhost'),
+    'https://*.replit.dev',
+    'https://*.repl.co',
+]
+
 
 # Application definition
 
