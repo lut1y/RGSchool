@@ -132,18 +132,25 @@
 .hero-section .carousel-control-prev,
 .hero-section .carousel-control-next {
     width: 5%;
-    opacity: 0;
+    opacity: 0.6;
     transition: opacity 0.3s ease;
+    background: rgba(0, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 20px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    pointer-events: auto;
 }
 
 .hero-section:hover .carousel-control-prev,
 .hero-section:hover .carousel-control-next {
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .hero-section .carousel-control-prev:hover,
 .hero-section .carousel-control-next:hover {
     opacity: 1;
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
 }
 
 .hero-overlay {
@@ -287,15 +294,6 @@
     text-shadow: 0 0 10px var(--cyber-glow);
 }
 
-/* Scroll indicator */
-.scroll-indicator {
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
-}
-
-.scroll-indicator:hover {
-    opacity: 1;
-}
 
 /* Форма */
 .form-control:focus {

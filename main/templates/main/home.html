@@ -6,14 +6,14 @@
 <section class="hero-section min-vh-100 d-flex align-items-center position-relative overflow-hidden">
     {% if hero_images %}
         <!-- Bootstrap Carousel for Hero Images -->
-        <div id="heroCarousel" class="carousel slide position-absolute w-100 h-100" data-bs-ride="carousel" data-bs-interval="5000" style="z-index: 0;">
+        <div id="heroCarousel" class="carousel slide position-absolute w-100 h-100" data-bs-ride="carousel" data-bs-interval="5000" style="z-index: 2;">
             <div class="carousel-inner h-100">
                 {% for hero_image in hero_images %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %} h-100">
                     <img src="{{ hero_image.image.url }}" 
                          alt="{{ hero_image.alt_text }}"
                          class="d-block w-100 h-100"
-                         style="object-fit: cover; object-position: center;"
+                         style="object-fit: contain; object-position: center;"
                          loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
                          decoding="async">
                 </div>
@@ -21,11 +21,11 @@
             </div>
             <!-- Carousel controls -->
             {% if hero_images|length > 1 %}
-            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="z-index: 2;">
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="z-index: 5;">
                 <span class="carousel-control-prev-icon opacity-75" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" style="z-index: 2;">
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" style="z-index: 5;">
                 <span class="carousel-control-next-icon opacity-75" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
@@ -55,10 +55,6 @@
             </div>
         </div>
         
-        <!-- Scroll indicator -->
-        <div class="scroll-indicator position-absolute bottom-0 start-50 translate-middle-x mb-4">
-            <i class="fas fa-chevron-down fa-2x animate-bounce"></i>
-        </div>
     </div>
 </section>
 

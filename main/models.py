@@ -1,13 +1,13 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
-from PIL import Image
+# from PIL import Image
 import os
 
 
 class HeroImage(models.Model):
     """Модель для hero-изображений, которые можно загружать через админку"""
     title = models.CharField(max_length=200, verbose_name="Название изображения")
-    image = models.ImageField(
+    image = models.FileField(
         upload_to='hero_images/',
         validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'webp'])],
         verbose_name="Изображение"
@@ -28,18 +28,19 @@ class HeroImage(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         
+        # TODO: Re-enable image optimization when PIL/Pillow is properly configured
         # Оптимизация изображения для быстрой загрузки
-        if self.image and hasattr(self.image, 'path') and os.path.exists(self.image.path):
-            try:
-                img = Image.open(self.image.path)
-                
-                # Максимальный размер для hero-изображений
-                max_size = (1920, 1080)
-                if img.height > max_size[1] or img.width > max_size[0]:
-                    img.thumbnail(max_size, Image.Resampling.LANCZOS)
-                    img.save(self.image.path, optimize=True, quality=85)
-            except Exception:
-                pass  # Если не удалось оптимизировать изображение, продолжаем без ошибки
+        # if self.image and hasattr(self.image, 'path') and os.path.exists(self.image.path):
+        #     try:
+        #         img = Image.open(self.image.path)
+        #         
+        #         # Максимальный размер для hero-изображений
+        #         max_size = (1920, 1080)
+        #         if img.height > max_size[1] or img.width > max_size[0]:
+        #             img.thumbnail(max_size, Image.Resampling.LANCZOS)
+        #             img.save(self.image.path, optimize=True, quality=85)
+        #     except Exception:
+        #         pass  # Если не удалось оптимизировать изображение, продолжаем без ошибки
 
 
 class Service(models.Model):
