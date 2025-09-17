@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_http_methods
-from .models import HeroImage, Service, ContactForm
+from .models import HeroImage, Service, ContactForm, PageContent
 from .forms import ContactFormForm
 
 
@@ -21,6 +21,14 @@ def home(request):
         'page_title': 'Grace School - Спортивная школа развития',
         'meta_description': 'Grace School - современная спортивная школа с бережным подходом к развитию детей. Художественная гимнастика, единоборства, танцы и воздушная гимнастика.',
         'meta_keywords': 'спортивная школа, художественная гимнастика, единоборства, танцы, воздушная гимнастика, развитие детей',
+        # Добавляем редактируемый контент
+        'hero_title': PageContent.get_content('hero_title', 'Спорт, развитие, эстетика и бережность'),
+        'hero_subtitle': PageContent.get_content('hero_subtitle', 'Это школа, в которую хочется возвращаться'),
+        'services_title': PageContent.get_content('services_title', 'Наши направления'),
+        'services_subtitle': PageContent.get_content('services_subtitle', 'Каждое направление помогает ребенку развиваться всесторонне'),
+        'about_title': PageContent.get_content('about_title', 'Бережный подход к каждому ребенку'),
+        'cta_title': PageContent.get_content('cta_title', 'Получите бесплатное пробное занятие!'),
+        'cta_subtitle': PageContent.get_content('cta_subtitle', 'Свяжитесь с нами и запишитесь на пробное занятие'),
     }
     
     return render(request, 'main/home.html', context)

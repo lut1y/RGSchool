@@ -39,10 +39,10 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <h1 class="display-3 fw-bold mb-4 animate-fade-in">
-                    Спорт, развитие, эстетика и бережность
+                    {{ hero_title }}
                 </h1>
                 <p class="lead mb-5 animate-fade-in-delay">
-                    Это школа, в которую хочется возвращаться
+                    {{ hero_subtitle }}
                 </p>
                 <div class="animate-fade-in-delay-2">
                     <a href="{% url 'contact' %}" class="btn btn-chocolate-primary btn-lg px-5 py-3 me-3">
@@ -62,8 +62,8 @@
 <section id="services" class="py-5">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="display-4 fw-bold text-chocolate-dark mb-3">Наши направления</h2>
-            <p class="lead text-muted">Каждое направление помогает ребенку развиваться всесторонне</p>
+            <h2 class="display-4 fw-bold text-chocolate-dark mb-3">{{ services_title }}</h2>
+            <p class="lead text-muted">{{ services_subtitle }}</p>
         </div>
         
         <div class="row g-4">
@@ -94,7 +94,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <h2 class="display-5 fw-bold text-chocolate-dark mb-4">Бережный подход к каждому ребенку</h2>
+                <h2 class="display-5 fw-bold text-chocolate-dark mb-4">{{ about_title }}</h2>
                 <div class="row g-3">
                     <div class="col-12">
                         <div class="d-flex align-items-start">
@@ -144,8 +144,8 @@
 <!-- CTA Section -->
 <section class="py-5 bg-chocolate-dark text-light">
     <div class="container text-center">
-        <h2 class="display-5 fw-bold mb-3">Получите бесплатное пробное занятие!</h2>
-        <p class="lead mb-4">Свяжитесь с нами и запишитесь на пробное занятие</p>
+        <h2 class="display-5 fw-bold mb-3">{{ cta_title }}</h2>
+        <p class="lead mb-4">{{ cta_subtitle }}</p>
         <a href="{% url 'contact' %}" class="btn btn-chocolate-primary btn-lg px-5 py-3">
             <i class="fas fa-phone me-2"></i>Оставить заявку
         </a>

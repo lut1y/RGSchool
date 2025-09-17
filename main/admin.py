@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HeroImage, Service, ContactForm
+from .models import HeroImage, Service, ContactForm, PageContent
 
 
 @admin.register(HeroImage)
@@ -70,3 +70,28 @@ class ContactFormAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         """Запрещаем добавление новых заявок через админку"""
         return False
+
+
+@admin.register(PageContent)
+class PageContentAdmin(admin.ModelAdmin):
+    """Администрирование контента страниц"""
+    list_display = ['get_content_type_display', 'title', 'is_active', 'updated_at']
+    list_filter = ['is_active', 'content_type']
+    list_editable = ['is_active']
+    search_fields = ['title']
+    ordering = ['content_type']
+    
+    fieldsets = (
+        ('Контент', {
+            'fields': ('content_type', 'title')
+        }),
+        ('Настройки', {
+            'fields': ('is_active',)
+        }),
+    )
+    
+    readonly_fields = ['updated_at']
+    
+    def get_content_type_display(self, obj):
+        return obj.get_content_type_display()
+    get_content_type_display.short_description = 'Тип контента'

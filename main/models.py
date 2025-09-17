@@ -61,6 +61,41 @@ class Service(models.Model):
         return self.name
 
 
+class PageContent(models.Model):
+    """Модель для редактируемого контента страниц"""
+    CONTENT_TYPES = [
+        ('hero_title', 'Заголовок Hero секции'),
+        ('hero_subtitle', 'Подзаголовок Hero секции'),
+        ('services_title', 'Заголовок секции Направления'),
+        ('services_subtitle', 'Подзаголовок секции Направления'),
+        ('about_title', 'Заголовок секции О нас'),
+        ('cta_title', 'Заголовок CTA секции'),
+        ('cta_subtitle', 'Подзаголовок CTA секции'),
+    ]
+    
+    content_type = models.CharField(max_length=50, choices=CONTENT_TYPES, unique=True, verbose_name="Тип контента")
+    title = models.CharField(max_length=300, verbose_name="Заголовок/Текст")
+    is_active = models.BooleanField(default=True, verbose_name="Активно")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
+    
+    class Meta:
+        verbose_name = "Контент страницы"
+        verbose_name_plural = "Контент страниц"
+        ordering = ['content_type']
+    
+    def __str__(self):
+        return f"{self.get_content_type_display()}: {self.title[:50]}"
+    
+    @classmethod
+    def get_content(cls, content_type, default=""):
+        """Получить контент по типу"""
+        try:
+            content = cls.objects.get(content_type=content_type, is_active=True)
+            return content.title
+        except cls.DoesNotExist:
+            return default
+
+
 class ContactForm(models.Model):
     """Модель для сохранения заявок с контактной формы"""
     name = models.CharField(max_length=100, verbose_name="Имя")

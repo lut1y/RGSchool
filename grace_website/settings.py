@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,23 +21,39 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SESSION_SECRET', 'django-insecure-c+$mje3e)1h(*(x(2b$)w5ct4g_z=b4geoq1-)ds8y9z+4_%0o')
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = ['*']
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get('SECRET_KEY') or os.environ.get('SESSION_SECRET')
+if not DEBUG and not SECRET_KEY:
+    raise ImproperlyConfigured('SECRET_KEY or SESSION_SECRET environment variable is required in production')
+# Fallback only for development
+if not SECRET_KEY:
+    SECRET_KEY = 'django-insecure-c+$mje3e)1h(*(x(2b$)w5ct4g_z=b4geoq1-)ds8y9z+4_%0o'
+
+# Host validation
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
+    allowed_hosts_str = os.environ.get('ALLOWED_HOSTS', '')
+    if not allowed_hosts_str:
+        raise ImproperlyConfigured('ALLOWED_HOSTS environment variable is required in production')
+    ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_str.split(',')]
 
 # CSRF settings for Replit environment
-CSRF_TRUSTED_ORIGINS = [
-    'https://*.replit.dev',
-    'https://*.pike.replit.dev',
-    'https://*.repl.co',
-    'http://localhost:5000',
-    'http://127.0.0.1:5000',
-    'http://0.0.0.0:5000',
-]
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS = [
+        'https://*.replit.dev',
+        'https://*.pike.replit.dev',
+        'https://*.repl.co',
+        'http://localhost:5000',
+        'http://127.0.0.1:5000',
+        'http://0.0.0.0:5000',
+    ]
+else:
+    # Production: use environment variable
+    CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') if os.environ.get('CSRF_TRUSTED_ORIGINS') else []
 
 
 # Application definition
@@ -143,3 +160,16 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Security settings for production
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'
+    # For deployments behind HTTPS proxy/load balancer
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
