@@ -5,19 +5,37 @@
 <!-- Hero Section -->
 <section class="hero-section min-vh-100 d-flex align-items-center position-relative overflow-hidden">
     {% if hero_images %}
-        {% with hero_images|first as hero_image %}
-            <img src="{{ hero_image.image.url }}" 
-                 alt="{{ hero_image.alt_text }}"
-                 class="hero-bg position-absolute w-100 h-100"
-                 style="object-fit: cover; object-position: center; opacity: 0.7; z-index: -2;"
-                 loading="eager"
-                 decoding="async">
-        {% endwith %}
+        <!-- Bootstrap Carousel for Hero Images -->
+        <div id="heroCarousel" class="carousel slide position-absolute w-100 h-100" data-bs-ride="carousel" data-bs-interval="5000" style="z-index: 0;">
+            <div class="carousel-inner h-100">
+                {% for hero_image in hero_images %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %} h-100">
+                    <img src="{{ hero_image.image.url }}" 
+                         alt="{{ hero_image.alt_text }}"
+                         class="d-block w-100 h-100"
+                         style="object-fit: cover; object-position: center;"
+                         loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                         decoding="async">
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Carousel controls -->
+            {% if hero_images|length > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="z-index: 2;">
+                <span class="carousel-control-prev-icon opacity-75" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" style="z-index: 2;">
+                <span class="carousel-control-next-icon opacity-75" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            {% endif %}
+        </div>
     {% endif %}
     
-    <div class="hero-overlay position-absolute w-100 h-100" style="z-index: -1;"></div>
+    <div class="hero-overlay position-absolute w-100 h-100" style="z-index: 1; background: linear-gradient(135deg, rgba(26, 26, 46, 0.8), rgba(22, 33, 62, 0.6));"></div>
     
-    <div class="container position-relative z-2 text-center text-light">
+    <div class="container position-relative text-center text-light" style="z-index: 3;">
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <h1 class="display-3 fw-bold mb-4 animate-fade-in">

@@ -28,6 +28,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# CSRF settings for Replit environment
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.replit.dev',
+    'https://*.pike.replit.dev',
+    'https://*.repl.co',
+    'http://localhost:5000',
+    'http://127.0.0.1:5000',
+    'http://0.0.0.0:5000',
+]
+
 
 # Application definition
 
