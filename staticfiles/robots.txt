@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: /sitemap.xml
+
+# Важные файлы для сканирования
+Allow: /static/
+
+# Заблокировать административные разделы
+Disallow: /admin/
+
+# Заблокировать служебные файлы
+Disallow: /*.json$
+Disallow: /*.log$
